@@ -1,36 +1,40 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs "NodeJS_16"   // Make sure NodeJS 16+ is configured in Jenkins
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/yourusername/your-react-repo.git'
+                git branch: 'main', url: 'https://github.com/pankajkush711/reacrexp4.git'
             }
         }
+
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
+
         stage('Start React App') {
             steps {
-                // Start React app in background for tests
-                sh 'npm start &'
-                // Wait for the app to start before running tests
-                sleep 10
+                sh 'nohup npm start &'
+                sleep(time: 10, unit: 'SECONDS') // wait for server to start
             }
         }
+
         stage('Run Selenium Tests') {
             steps {
-                sh 'npx mocha tests/**/*.test.js'
+                sh 'npm run test:ui'
             }
         }
     }
 
     post {
         always {
-            // Add any cleanup here if needed
-            echo 'Pipeline completed.'
+            echo "Pipeline finished. Cleaning up..."
         }
     }
 }
