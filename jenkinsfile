@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/yourusername/your-react-repo.git'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Start React App') {
+            steps {
+                // Start React app in background for tests
+                sh 'npm start &'
+                // Wait for the app to start before running tests
+                sleep 10
+            }
+        }
+        stage('Run Selenium Tests') {
+            steps {
+                sh 'npx mocha tests/**/*.test.js'
+            }
+        }
+    }
+
+    post {
+        always {
+            // Add any cleanup here if needed
+            echo 'Pipeline completed.'
+        }
+    }
+}
