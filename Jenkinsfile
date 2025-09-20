@@ -12,7 +12,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/pankajkush711/reactexp4.git'
+                git branch: 'main',
+                    url: 'https://github.com/pankajkush711/reactexp4.git',
+                    credentialsId: 'github-pat' // <-- Use the Jenkins credential ID for your PAT
             }
         }
 
