@@ -16,7 +16,7 @@
   "start": "react-scripts start",
   "build": "react-scripts build",
   "test": "react-scripts test",
-  "test:ui": "mocha tests/selenium/*.js --timeout 60000"
+  "test:ui": "mocha tests/*.js --timeout 60000"
 }
 ,
   "eslintConfig": {
