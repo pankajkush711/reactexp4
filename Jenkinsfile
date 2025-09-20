@@ -5,45 +5,31 @@ pipeline {
         DISPLAY = ':99' // For Xvfb if needed
     }
 
-    tools {
-        nodejs 'NodeJS_16' // Ensure Node.js 16+ is configured in Jenkins
-    }
-
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/pankajkush711/reactexp4.git',
-                    credentialsId: 'github-pat' // <-- Use the Jenkins credential ID for your PAT
+                    credentialsId: 'github-pat'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                script {
-                    // Install dependencies using npm
-                    bat 'npm install'
-                }
+                bat 'npm install'
             }
         }
 
         stage('Start React App') {
             steps {
-                script {
-                    // Start React app in background
-                    bat 'start /B npm start'
-                    // Wait for the app to start
-                    sleep time: 15, unit: 'SECONDS'
-                }
+                bat 'start /B npm start'
+                sleep time: 15, unit: 'SECONDS'
             }
         }
 
         stage('Run Selenium Tests') {
             steps {
-                script {
-                    // Run Selenium tests using npm script
-                    bat 'npm run test:ui'
-                }
+                bat 'npm run test:ui'
             }
         }
     }
